@@ -37,9 +37,23 @@ type Checker struct {
 }
 
 // Exit with message
-func (ch *Checker) Exit() {
-	fmt.Printf("%s %s\n", ch.Status.String(), ch.Message)
-	os.Exit(int(ch.Status))
+func (ckr *Checker) Exit() {
+	fmt.Println(ckr.String())
+	os.Exit(int(ckr.Status))
+}
+
+func (ckr *Checker) String() string {
+	return fmt.Sprintf("%s %s", ckr.Status.String(), ckr.Message)
+}
+
+func (ckr *Checker) Merge(ckrs ...*Checker) *Checker {
+	for _, c := range ckrs {
+		if c.Status > ckr.Status {
+			ckr.Status = c.Status
+		}
+		ckr.Message = ckr.Message + " - " + c.Message
+	}
+	return ckr
 }
 
 // Ok exiting with OK status

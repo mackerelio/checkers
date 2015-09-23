@@ -3,8 +3,13 @@ package checkers
 import "testing"
 
 func TestCheckers(t *testing.T) {
-	if false {
-		t.Errorf("error")
+	ckr := Ok("OK!")
+
+	if ckr.Status != OK {
+		t.Errorf("ckr.Status should be OK but:%s\n", ckr.Status)
 	}
-	Ok("OK!")
+
+	if ckr.Message != "OK!" {
+		t.Errorf("ckr.Message should be 'OK!' but:%s\n", ckr.Message)
+	}
 }

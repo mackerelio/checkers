@@ -57,21 +57,21 @@ func (ckr *Checker) Merge(ckrs ...*Checker) *Checker {
 }
 
 // Ok exiting with OK status
-func Ok(msg string) {
-	(&Checker{OK, msg}).Exit()
+func Ok(msg string) *Checker {
+	return &Checker{OK, msg}
 }
 
 // Warning exiting with WARNING status
-func Warning(msg string) {
-	(&Checker{WARNING, msg}).Exit()
+func Warning(msg string) *Checker {
+	return &Checker{WARNING, msg}
 }
 
 // Critical exiting with CRITICAL status
-func Critical(msg string) {
-	(&Checker{CRITICAL, msg}).Exit()
+func Critical(msg string) *Checker {
+	return &Checker{CRITICAL, msg}
 }
 
 // Unknown exiting with UNKNOWN status
-func Unknown(msg string) {
-	(&Checker{UNKNOWN, msg}).Exit()
+func Unknown(msg string) *Checker {
+	return &Checker{UNKNOWN, msg}
 }

@@ -1,0 +1,7 @@
+language: go
+go:
+- 1.4
+env: PATH=/home/travis/gopath/bin:$PATH
+script:
+- make lint
+- goveralls

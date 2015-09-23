@@ -1,4 +1,4 @@
-// checkers is utility for checker commands
+// Package checkers is utility for checker commands
 package checkers
 
 import (
@@ -44,16 +44,6 @@ func (ckr *Checker) Exit() {
 
 func (ckr *Checker) String() string {
 	return fmt.Sprintf("%s %s", ckr.Status.String(), ckr.Message)
-}
-
-func (ckr *Checker) Merge(ckrs ...*Checker) *Checker {
-	for _, c := range ckrs {
-		if c.Status > ckr.Status {
-			ckr.Status = c.Status
-		}
-		ckr.Message = ckr.Message + " - " + c.Message
-	}
-	return ckr
 }
 
 // Ok exiting with OK status

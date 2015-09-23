@@ -30,6 +30,14 @@ func (st Status) String() string {
 	}
 }
 
+// NewChecker returns new Checker
+func NewChecker(st Status, msg string) *Checker {
+	return &Checker{
+		Status:  st,
+		Message: msg,
+	}
+}
+
 // Checker is utility struct for check script
 type Checker struct {
 	Status  Status
@@ -48,20 +56,20 @@ func (ckr *Checker) String() string {
 
 // Ok exiting with OK status
 func Ok(msg string) *Checker {
-	return &Checker{OK, msg}
+	return NewChecker(OK, msg)
 }
 
 // Warning exiting with WARNING status
 func Warning(msg string) *Checker {
-	return &Checker{WARNING, msg}
+	return NewChecker(WARNING, msg)
 }
 
 // Critical exiting with CRITICAL status
 func Critical(msg string) *Checker {
-	return &Checker{CRITICAL, msg}
+	return NewChecker(CRITICAL, msg)
 }
 
 // Unknown exiting with UNKNOWN status
 func Unknown(msg string) *Checker {
-	return &Checker{UNKNOWN, msg}
+	return NewChecker(UNKNOWN, msg)
 }

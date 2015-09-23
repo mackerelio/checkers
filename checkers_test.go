@@ -12,7 +12,7 @@ func TestOk(t *testing.T) {
 		t.Errorf("ckr.Message should be 'OK!' but:%s\n", ckr.Message)
 	}
 
-	if ckr.String() != "OK OK!" {
+	if ckr.String() != " OK: OK!" {
 		t.Errorf("ckr.Status should be 'OK OK!' but:%s\n", ckr.String())
 	}
 }

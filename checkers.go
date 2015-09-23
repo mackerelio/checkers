@@ -40,6 +40,7 @@ func NewChecker(st Status, msg string) *Checker {
 
 // Checker is utility struct for check script
 type Checker struct {
+	Name    string
 	Status  Status
 	Message string
 }
@@ -51,7 +52,7 @@ func (ckr *Checker) Exit() {
 }
 
 func (ckr *Checker) String() string {
-	return fmt.Sprintf("%s %s", ckr.Status.String(), ckr.Message)
+	return fmt.Sprintf("%s %s: %s", ckr.Name, ckr.Status, ckr.Message)
 }
 
 // Ok exiting with OK status

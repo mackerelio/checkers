@@ -3,7 +3,7 @@ checkers
 
 [![Build Status](https://travis-ci.org/mackerelio/checkers.png?branch=master)][travis]
 [![Coverage Status](https://coveralls.io/repos/mackerelio/checkers/badge.png?branch=master)][coveralls]
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
+[![Apache License Version 2.0](http://img.shields.io/badge/license-APACHE2-blue.svg?style=flat-square)][license]
 [![GoDoc](https://godoc.org/github.com/mackerelio/checkers?status.svg)][godoc]
 
 [travis]: https://travis-ci.org/mackerelio/checkers

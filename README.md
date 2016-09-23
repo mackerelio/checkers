@@ -1,8 +1,8 @@
 checkers
 =======
 
-[![Build Status](https://travis-ci.org/mackerelio/checkers.png?branch=master)][travis]
-[![Coverage Status](https://coveralls.io/repos/mackerelio/checkers/badge.png?branch=master)][coveralls]
+[![Build Status](https://travis-ci.org/mackerelio/checkers.svg?branch=master)][travis]
+[![Coverage Status](https://coveralls.io/repos/mackerelio/checkers/badge.svg?branch=master)][coveralls]
 [![Apache License Version 2.0](http://img.shields.io/badge/license-APACHE2-blue.svg?style=flat-square)][license]
 [![GoDoc](https://godoc.org/github.com/mackerelio/checkers?status.svg)][godoc]
 

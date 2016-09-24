@@ -26,6 +26,10 @@ func TestWarning(t *testing.T) {
 	if ckr.Message != "warn!" {
 		t.Errorf("ckr.Message should be 'warn!' but:%s\n", ckr.Message)
 	}
+
+	if ckr.String() != " WARNING: warn!" {
+		t.Errorf("ckr.Status should be 'WARNING warn!' but:%s\n", ckr.String())
+	}
 }
 
 func TestCritical(t *testing.T) {
@@ -37,6 +41,10 @@ func TestCritical(t *testing.T) {
 	if ckr.Message != "crit!" {
 		t.Errorf("ckr.Message should be 'crit!' but:%s\n", ckr.Message)
 	}
+
+	if ckr.String() != " CRITICAL: crit!" {
+		t.Errorf("ckr.Status should be 'CRITICAL crit!' but:%s\n", ckr.String())
+	}
 }
 
 func TestUnknown(t *testing.T) {
@@ -47,5 +55,9 @@ func TestUnknown(t *testing.T) {
 	}
 	if ckr.Message != "unknown!" {
 		t.Errorf("ckr.Message should be 'unknown!' but:%s\n", ckr.Message)
+	}
+
+	if ckr.String() != " UNKNOWN: unknown!" {
+		t.Errorf("ckr.Status should be 'UNKNOWN unknown!' but:%s\n", ckr.String())
 	}
 }

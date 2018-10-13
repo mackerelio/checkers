@@ -7,9 +7,9 @@ deps:
 	go get -d -v -t ./...
 
 devel-deps: deps
-	go get github.com/golang/lint/golint
-	go get github.com/axw/gocov/gocov
-	go get github.com/mattn/goveralls
+	go get golang.org/x/lint/golint \
+		github.com/axw/gocov/gocov \
+		github.com/mattn/goveralls
 
 LINT_RET = .golint.txt
 lint: devel-deps

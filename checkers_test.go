@@ -61,3 +61,11 @@ func TestUnknown(t *testing.T) {
 		t.Errorf("ckr.Status should be 'UNKNOWN unknown!' but:%s\n", ckr.String())
 	}
 }
+
+func TestName(t *testing.T) {
+	ckr := Ok("OK!")
+	ckr.Name = "someChecker"
+	if ckr.String() != "someChecker OK: OK!" {
+		t.Errorf("ckr.Status should be 'someChecker OK OK!' but:%s\n", ckr.String())
+	}
+}

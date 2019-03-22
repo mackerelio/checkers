@@ -7,6 +7,7 @@ deps:
 	go get -d -v -t ./...
 
 devel-deps: deps
+	GO111MODULE=off \
 	go get golang.org/x/lint/golint \
 		github.com/axw/gocov/gocov \
 		github.com/mattn/goveralls

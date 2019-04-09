@@ -16,13 +16,10 @@ devel-deps: deps
 		github.com/axw/gocov/gocov \
 		github.com/mattn/goveralls
 
-LINT_RET = .golint.txt
 .PHONY: lint
 lint: devel-deps
 	go vet ./...
-	rm -f $(LINT_RET)
-	golint ./... | tee -a $(LINT_RET)
-	test ! -s $(LINT_RET)
+	golint -set_exit_status ./...
 
 .PHONY: cover
 cover: devel-deps

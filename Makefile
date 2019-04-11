@@ -1,5 +1,5 @@
 .PHONY: all
-all: clean test build
+all: clean test
 
 .PHONY: test
 test: lint
@@ -11,6 +11,7 @@ deps:
 
 .PHONY: devel-deps
 devel-deps: deps
+	GO111MODULE=off \
 	go get golang.org/x/lint/golint \
 		github.com/axw/gocov/gocov \
 		github.com/mattn/goveralls

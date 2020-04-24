@@ -5,15 +5,10 @@ all: clean test
 test: lint
 	go test $(TESTFLAGS) ./...
 
-.PHONY: deps
-deps:
-	go get -d -v -t ./...
-
 .PHONY: devel-deps
-devel-deps: deps
-	GO111MODULE=off \
-	go get golang.org/x/lint/golint \
-		github.com/axw/gocov/gocov \
+devel-deps:
+	go install \
+		golang.org/x/lint/golint \
 		github.com/mattn/goveralls
 
 .PHONY: lint

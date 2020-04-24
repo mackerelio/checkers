@@ -16,10 +16,6 @@ lint: devel-deps
 	go vet ./...
 	golint -set_exit_status ./...
 
-.PHONY: cover
-cover: devel-deps
-	tool/cover.sh
-
 .PHONY: clean
 clean:
 	go clean

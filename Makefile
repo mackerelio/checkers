@@ -7,9 +7,7 @@ test: lint
 
 .PHONY: devel-deps
 devel-deps:
-	go install \
-		golang.org/x/lint/golint \
-		github.com/mattn/goveralls
+	go install golang.org/x/lint/golint
 
 .PHONY: lint
 lint: devel-deps

@@ -5,16 +5,9 @@ all: clean test
 test: lint
 	go test $(TESTFLAGS) ./...
 
-.PHONY: deps
-deps:
-	go get -d -v -t ./...
-
 .PHONY: devel-deps
-devel-deps: deps
-	GO111MODULE=off \
-	go get golang.org/x/lint/golint \
-		github.com/axw/gocov/gocov \
-		github.com/mattn/goveralls
+devel-deps:
+	go install golang.org/x/lint/golint
 
 .PHONY: lint
 lint: devel-deps
@@ -22,8 +15,8 @@ lint: devel-deps
 	golint -set_exit_status ./...
 
 .PHONY: cover
-cover: devel-deps
-	tool/cover.sh
+cover: lint
+	go test -race -covermode atomic -coverprofile=profile.cov ./...
 
 .PHONY: clean
 clean:

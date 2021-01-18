@@ -2,20 +2,11 @@
 all: clean test
 
 .PHONY: test
-test: lint
+test:
 	go test $(TESTFLAGS) ./...
 
-.PHONY: devel-deps
-devel-deps:
-	go install golang.org/x/lint/golint
-
-.PHONY: lint
-lint: devel-deps
-	go vet ./...
-	golint -set_exit_status ./...
-
 .PHONY: cover
-cover: lint
+cover:
 	go test -race -covermode atomic -coverprofile=profile.cov ./...
 
 .PHONY: clean

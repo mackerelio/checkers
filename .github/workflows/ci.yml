@@ -5,7 +5,16 @@ on:
     branches:
     - master
   pull_request:
+env:
+  GO111MODULE: on
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: golangci/golangci-lint-action@v2
+      with:
+        version: v1.35
   test:
     strategy:
       matrix:
@@ -30,7 +39,7 @@ jobs:
         parallel: true
         job-number: ${{ strategy.job-index }}
   finish:
-    needs: test
+    needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
     - uses: shogo82148/actions-goveralls@v1

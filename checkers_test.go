@@ -3,6 +3,7 @@ package checkers
 import "testing"
 
 func TestOk(t *testing.T) {
+	t.Parallel()
 	ckr := Ok("OK!")
 
 	if ckr.Status != OK {
@@ -18,6 +19,7 @@ func TestOk(t *testing.T) {
 }
 
 func TestWarning(t *testing.T) {
+	t.Parallel()
 	ckr := Warning("warn!")
 
 	if ckr.Status != WARNING {
@@ -33,6 +35,7 @@ func TestWarning(t *testing.T) {
 }
 
 func TestCritical(t *testing.T) {
+	t.Parallel()
 	ckr := Critical("crit!")
 
 	if ckr.Status != CRITICAL {
@@ -48,6 +51,7 @@ func TestCritical(t *testing.T) {
 }
 
 func TestUnknown(t *testing.T) {
+	t.Parallel()
 	ckr := Unknown("unknown!")
 
 	if ckr.Status != UNKNOWN {
@@ -63,6 +67,7 @@ func TestUnknown(t *testing.T) {
 }
 
 func TestName(t *testing.T) {
+	t.Parallel()
 	ckr := Ok("OK!")
 	ckr.Name = "someChecker"
 	if ckr.String() != "someChecker OK: OK!" {

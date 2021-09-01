@@ -18,12 +18,12 @@ const (
 )
 
 func (st Status) String() string {
-	switch {
-	case st == 0:
+	switch st {
+	case 0:
 		return "OK"
-	case st == 1:
+	case 1:
 		return "WARNING"
-	case st == 2:
+	case 2:
 		return "CRITICAL"
 	default:
 		return "UNKNOWN"

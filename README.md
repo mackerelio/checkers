@@ -3,13 +3,13 @@ checkers
 
  [![Build Status](https://github.com/mackerelio/checkers/workflows/Build/badge.svg?branch=master)][actions]
 [![Coverage Status](https://coveralls.io/repos/mackerelio/checkers/badge.svg?branch=master)][coveralls]
-[![Apache License Version 2.0](http://img.shields.io/badge/license-APACHE2-blue.svg)][license]
-[![GoDoc](https://pkg.go.dev/badge/github.com/mackerelio/checkers)][godoc]
+[![Apache License Version 2.0](https://img.shields.io/badge/license-APACHE2-blue.svg)][license]
+[![GoDev](https://pkg.go.dev/badge/github.com/mackerelio/checkers)][godev]
 
 [actions]: https://github.com/mackerelio/checkers/actions?workflow=Build
 [coveralls]: https://coveralls.io/r/mackerelio/checkers?branch=master
 [license]: https://github.com/mackerelio/checkers/blob/master/LICENSE
-[godoc]: https://pkg.go.dev/github.com/mackerelio/checkers
+[godev]: https://pkg.go.dev/github.com/mackerelio/checkers
 
 ## Description
 

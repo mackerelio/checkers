@@ -45,10 +45,12 @@ type Checker struct {
 	Message string
 }
 
+var exit = os.Exit
+
 // Exit with message
 func (ckr *Checker) Exit() {
 	fmt.Println(ckr.String())
-	os.Exit(int(ckr.Status))
+	exit(int(ckr.Status))
 }
 
 func (ckr *Checker) String() string {

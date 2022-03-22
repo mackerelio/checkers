@@ -2,75 +2,56 @@ package checkers
 
 import "testing"
 
-func TestOk(t *testing.T) {
-	t.Parallel()
-	ckr := Ok("OK!")
-
-	if ckr.Status != OK {
-		t.Errorf("ckr.Status should be OK but:%s\n", ckr.Status)
+func TestCheck(t *testing.T) {
+	tests := []struct {
+		name   string
+		check  func(s string) *Checker
+		msg    string
+		status Status
+		s      string
+	}{
+		{"ok", Ok, "OK!", OK, " OK: OK!"},
+		{"warn", Warning, "warn!", WARNING, " WARNING: warn!"},
+		{"crit", Critical, "crit!", CRITICAL, " CRITICAL: crit!"},
+		{"unknown", Unknown, "unknown!", UNKNOWN, " UNKNOWN: unknown!"},
 	}
-	if ckr.Message != "OK!" {
-		t.Errorf("ckr.Message should be 'OK!' but:%s\n", ckr.Message)
-	}
-
-	if ckr.String() != " OK: OK!" {
-		t.Errorf("ckr.Status should be 'OK OK!' but:%s\n", ckr.String())
-	}
-}
-
-func TestWarning(t *testing.T) {
-	t.Parallel()
-	ckr := Warning("warn!")
-
-	if ckr.Status != WARNING {
-		t.Errorf("ckr.Status should be WARNING but:%s\n", ckr.Status)
-	}
-	if ckr.Message != "warn!" {
-		t.Errorf("ckr.Message should be 'warn!' but:%s\n", ckr.Message)
-	}
-
-	if ckr.String() != " WARNING: warn!" {
-		t.Errorf("ckr.Status should be 'WARNING warn!' but:%s\n", ckr.String())
-	}
-}
-
-func TestCritical(t *testing.T) {
-	t.Parallel()
-	ckr := Critical("crit!")
-
-	if ckr.Status != CRITICAL {
-		t.Errorf("ckr.Status should be CRITICAL but:%s\n", ckr.Status)
-	}
-	if ckr.Message != "crit!" {
-		t.Errorf("ckr.Message should be 'crit!' but:%s\n", ckr.Message)
-	}
-
-	if ckr.String() != " CRITICAL: crit!" {
-		t.Errorf("ckr.Status should be 'CRITICAL crit!' but:%s\n", ckr.String())
-	}
-}
-
-func TestUnknown(t *testing.T) {
-	t.Parallel()
-	ckr := Unknown("unknown!")
-
-	if ckr.Status != UNKNOWN {
-		t.Errorf("ckr.Status should be UNKNOWN but:%s\n", ckr.Status)
-	}
-	if ckr.Message != "unknown!" {
-		t.Errorf("ckr.Message should be 'unknown!' but:%s\n", ckr.Message)
-	}
-
-	if ckr.String() != " UNKNOWN: unknown!" {
-		t.Errorf("ckr.Status should be 'UNKNOWN unknown!' but:%s\n", ckr.String())
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := tt.check(tt.msg)
+			if c.Status != tt.status {
+				t.Errorf("Status should be %v but got %v", c.Status, tt.status)
+			}
+			if c.Message != tt.msg {
+				t.Errorf("Message should be %s but got %s", c.Message, tt.msg)
+			}
+			if s := c.String(); s != tt.s {
+				t.Errorf("String() should be %q but got %q", tt.s, s)
+			}
+		})
 	}
 }
 
 func TestName(t *testing.T) {
-	t.Parallel()
 	ckr := Ok("OK!")
 	ckr.Name = "someChecker"
 	if ckr.String() != "someChecker OK: OK!" {
-		t.Errorf("ckr.Status should be 'someChecker OK OK!' but:%s\n", ckr.String())
+		t.Errorf("ckr.Status should be 'someChecker OK OK!' but:%v\n", ckr)
+	}
+}
+
+func TestExit(t *testing.T) {
+	var exitCode int
+	oexit := exit
+	exit = func(code int) {
+		exitCode = code
+	}
+	t.Cleanup(func() {
+		exit = oexit
+	})
+
+	c := Critical("crit!")
+	c.Exit()
+	if exitCode != int(CRITICAL) {
+		t.Errorf("Exit should exit with %d but got %d", CRITICAL, exitCode)
 	}
 }

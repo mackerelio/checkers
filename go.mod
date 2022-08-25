@@ -1,3 +1,3 @@
 module github.com/mackerelio/checkers
 
-go 1.17
+go 1.18

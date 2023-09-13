@@ -53,6 +53,15 @@ func (ckr *Checker) Exit() {
 	exit(int(ckr.Status))
 }
 
+func (ckr *Checker) ExitStatusAs(maps map[Status]Status) {
+	if _, ok := maps[ckr.Status]; ok {
+		ckr.Status = maps[ckr.Status]
+	}
+
+	fmt.Println(ckr.String())
+	exit(int(ckr.Status))
+}
+
 func (ckr *Checker) String() string {
 	return fmt.Sprintf("%s %s: %s", ckr.Name, ckr.Status, ckr.Message)
 }

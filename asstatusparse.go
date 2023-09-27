@@ -22,7 +22,13 @@ func StrToStatus(s string) Status {
 	}
 	panic("invalid inputs.")
 }
-
+// Parse parses <status>=<status> notation string. <status> is one of:
+//   - ok
+//   - warning
+//   - critical
+//   - unknown
+//
+// It can have multiple key-value pairs by comma.
 func Parse(arg string) (map[Status]Status, error) {
 	if arg == "" {
 		return nil, nil

@@ -1,63 +1,63 @@
 package checkers
 
-import (
-	"fmt"
-	"strings"
+import "strings"
 
-	"golang.org/x/exp/slices"
-)
+type invalidStatusMapError string
 
-var keywords = []string{"OK", "WARNING", "CRITICAL", "UNKNOWN"}
-
-func strToStatus(s string) Status {
-	switch s {
-	case "OK":
-		return OK
-	case "WARNING":
-		return WARNING
-	case "CRITICAL":
-		return CRITICAL
-	case "UNKNOWN":
-		return UNKNOWN
-	}
-	panic("invalid inputs.")
+func (err invalidStatusMapError) Error() string {
+	return "invalid status map: " + string(err)
 }
 
-// Parse parses <status>=<status> notation string. <status> is one of:
+type duplicateStatusMapError Status
+
+func (err duplicateStatusMapError) Error() string {
+	return "duplicate status in map: " + Status(err).String()
+}
+
+func parseStatusPrefix(src string) (Status, string, bool) {
+	switch {
+	case strings.HasPrefix(src, "OK"):
+		return OK, src[len("OK"):], true
+	case strings.HasPrefix(src, "WARNING"):
+		return WARNING, src[len("WARNING"):], true
+	case strings.HasPrefix(src, "CRITICAL"):
+		return CRITICAL, src[len("CRITICAL"):], true
+	case strings.HasPrefix(src, "UNKNOWN"):
+		return UNKNOWN, src[len("UNKNOWN"):], true
+	default:
+		return OK, src, false
+	}
+}
+
+// Parse parses a string of the form <status>=<status>. <status> is one of:
+//
 //   - ok
 //   - warning
 //   - critical
 //   - unknown
 //
-// It can have multiple key-value pairs by comma.
-func Parse(arg string) (map[Status]Status, error) {
-	if arg == "" {
-		return nil, nil
+// You can specify multiple key-value pairs separated by commas.
+func Parse(src string) (map[Status]Status, error) {
+	orig, stm := src, map[Status]Status{}
+	for src = strings.ToUpper(src); src != ""; {
+		var from, to Status
+		var ok bool
+		if from, src, ok = parseStatusPrefix(src); !ok {
+			return nil, invalidStatusMapError(orig)
+		}
+		if src, ok = strings.CutPrefix(src, "="); !ok {
+			return nil, invalidStatusMapError(orig)
+		}
+		if to, src, ok = parseStatusPrefix(src); !ok {
+			return nil, invalidStatusMapError(orig)
+		}
+		if src, ok = strings.CutPrefix(src, ","); ok == (src == "") {
+			return nil, invalidStatusMapError(orig)
+		}
+		if _, ok = stm[from]; ok {
+			return nil, duplicateStatusMapError(from)
+		}
+		stm[from] = to
 	}
-
-	maps := make(map[Status]Status, 0)
-	args := strings.Split(arg, ",")
-
-	for _, s := range args {
-		if s == "" {
-			continue
-		}
-		rawFrom, rawTo, found := strings.Cut(s, "=")
-		if !found {
-			return nil, fmt.Errorf("arguments is invalid : %v", s)
-		}
-		from := strings.ToUpper(rawFrom)
-		to := strings.ToUpper(rawTo)
-		if !slices.Contains(keywords, from) {
-			return nil, fmt.Errorf("from argument is invalid : %s", rawFrom)
-		}
-		if !slices.Contains(keywords, to) {
-			return nil, fmt.Errorf("to argument is invalid : %s", rawTo)
-		}
-		if _, ok := maps[strToStatus(from)]; ok {
-			return nil, fmt.Errorf("arguments is duplicate : %v", from)
-		}
-		maps[strToStatus(from)] = strToStatus(to)
-	}
-	return maps, nil
+	return stm, nil
 }

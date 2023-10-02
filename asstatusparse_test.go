@@ -20,10 +20,17 @@ func TestParse(t *testing.T) {
 			},
 		},
 		{
-			name:   "multi",
-			source: "unknown=critical,warning=critical",
+			name:   "uppercase",
+			source: "UNKNOWN=CRITICAL",
 			expected: map[Status]Status{
 				UNKNOWN: CRITICAL,
+			},
+		},
+		{
+			name:   "multi",
+			source: "unknown=ok,warning=critical",
+			expected: map[Status]Status{
+				UNKNOWN: OK,
 				WARNING: CRITICAL,
 			},
 		},
@@ -33,13 +40,28 @@ func TestParse(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name:    "= error",
+			source:  "unknown critical",
+			wantErr: true,
+		},
+		{
 			name:    "to error",
 			source:  "critical=invalid",
 			wantErr: true,
 		},
 		{
 			name:    "argument error",
-			source:  "invalid=critical=invalid",
+			source:  "unknown=critical=invalid",
+			wantErr: true,
+		},
+		{
+			name:    "missing comma error",
+			source:  "unknown=criticalwarning=critical",
+			wantErr: true,
+		},
+		{
+			name:    "trailing comma error",
+			source:  "unknown=ok,",
 			wantErr: true,
 		},
 		{

@@ -19,11 +19,11 @@ const (
 
 func (st Status) String() string {
 	switch st {
-	case 0:
+	case OK:
 		return "OK"
-	case 1:
+	case WARNING:
 		return "WARNING"
-	case 2:
+	case CRITICAL:
 		return "CRITICAL"
 	default:
 		return "UNKNOWN"
@@ -49,6 +49,15 @@ var exit = os.Exit
 
 // Exit with message
 func (ckr *Checker) Exit() {
+	fmt.Println(ckr.String())
+	exit(int(ckr.Status))
+}
+
+func (ckr *Checker) ExitStatusAs(maps map[Status]Status) {
+	if _, ok := maps[ckr.Status]; ok {
+		ckr.Status = maps[ckr.Status]
+	}
+
 	fmt.Println(ckr.String())
 	exit(int(ckr.Status))
 }

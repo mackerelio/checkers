@@ -5,7 +5,16 @@ import (
 	"testing"
 )
 
+func TestParseStatusMap(t *testing.T) {
+	testParseFunc(t, "ParseStatusMap", ParseStatusMap)
+}
+
 func TestParse(t *testing.T) {
+	testParseFunc(t, "Parse", Parse)
+}
+
+func testParseFunc(t *testing.T, name string, fn func(src string) (map[Status]Status, error)) {
+	t.Helper()
 	tests := []struct {
 		name     string
 		source   string
@@ -72,13 +81,13 @@ func TestParse(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actual, err := Parse(tt.source)
+			actual, err := fn(tt.source)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Parse() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("%s(%q) error = %v, wantErr %v", name, tt.source, err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(tt.expected, actual) {
-				t.Errorf("Parse() should be %+v but got: %+v", tt.expected, actual)
+				t.Errorf("%s(%q) should be %+v but got: %+v", name, tt.source, tt.expected, actual)
 			}
 		})
 	}

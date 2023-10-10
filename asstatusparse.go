@@ -37,7 +37,21 @@ func parseStatusPrefix(src string) (Status, string, bool) {
 //   - unknown
 //
 // You can specify multiple key-value pairs separated by commas.
+//
+// Deprecated: use ParseStatusMap instead.
 func Parse(src string) (map[Status]Status, error) {
+	return ParseStatusMap(src)
+}
+
+// ParseStatusMap parses a string of the form <status>=<status>. <status> is one of:
+//
+//   - ok
+//   - warning
+//   - critical
+//   - unknown
+//
+// You can specify multiple key-value pairs separated by commas.
+func ParseStatusMap(src string) (map[Status]Status, error) {
 	orig, stm := src, map[Status]Status{}
 	for src = strings.ToUpper(src); src != ""; {
 		var from, to Status
